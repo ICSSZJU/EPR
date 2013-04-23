@@ -25,7 +25,7 @@ class parameters(trait.HasTraits):
     real_trans=trait.Bool
     profit_function=trait.Str
     batch_mode=trait.Bool
-    
+    update_method=trait.Enum("death-birth","birth-death","genetic pool")
     view=View(
               Group(
                   Group(Item('number_of_B',label=u"B数量"),
@@ -37,10 +37,11 @@ class parameters(trait.HasTraits):
                         Item('resource_rate',label=u"资源比例（g）"),
                         show_border=True,label=u"博弈参数设置"),
                   Group(Item('n',label=u"仿真代数（N）"),
-                        Item('m',label=u"重复轮次（n）"),
+                        Item('m',label=u"重复轮次（n）"),          
                         Item('selection_strength',label=u"选择强度（ω）"),
-                        Item('imitate_rate',label=u"变异率(μ)"),show_border=True,label=u"演化环境设置"),
+                        Item('imitate_rate',label=u"变异率(μ)"),
+                        Item("update_method",label=u"更新方式"),show_border=True,label=u"演化环境设置"),
                   Group(Item('batch_mode',label="batch mode"),show_border=True,label=u"观察者模式设置") 
                 
                      
-             ),buttons=["OK"],width=280,height=480,title=u"产权演化参数设置")
+             ),buttons=["OK"],width=280,height=500,title=u"产权演化参数设置")

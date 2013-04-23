@@ -71,7 +71,20 @@ class evolution(object):
         self.nonp_p_game=[[self.avoid,self.rob_avoid,self.conditional_rob_avoid_avoid],
                           [self.battle,self.rob,self.conditional_rob_battle],
                           [self.conditional_battle_avoid,self.conditional_rob_rob_avoid,self.conditional_rob_avoid]]
+        self.update_method={"death-birth":self.death_birth,"birth-death":self.birth_death,"genetic pool":self.genetic_pool}
+    
+    def death_birth(self,fitness):
+        self.evo_pop.reduce(random.randint(0,2))
+        self.evo_pop.add_by_prob([x/sum(fitness) for x in fitness])
         
+    def birth_death(self,fitness):
+        self.evo_pop.add_by_prob([x/sum(fitness) for x in fitness])
+        self.evo_pop.reduce(random.randint(0,2))
+    
+    def genetic_pool(self,fitness):
+        ix=self.evo_pop.select_by_prob([x/sum(fitness) for x in fitness])
+        self.evo_pop.reduce(random.randint(0,2))
+        self.evo_pop.add(ix)
     
     def grow_resource(self): 
         '''增长资源，假如某个体拥有资源，它的资源增加1单位'''
@@ -198,9 +211,8 @@ class evolution(object):
             ar=(np.average(sB),np.average(sX),np.average(sE))
             fitness=[math.exp(x*w) for x in self.payoff]
             
-            evo_pop.add_by_prob([x/sum(fitness) for x in fitness])
-            evo_pop.reduce(random.randint(0,2))
-            evo_pop.imitate(self.imitate_rate)
+            self.update_method[parameter.update_method](fitness)
+            self.evo_pop.imitate(self.imitate_rate)
             yield self.evo_pop,self.battle_count,i,ag,ar,fitness
             
     def game(self,left,right):

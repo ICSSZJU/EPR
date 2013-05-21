@@ -5,7 +5,7 @@ Attribution-NonCommercial-ShareAlike 3.0 Unported
 License. To view a copy of this license, visit 
 http://creativecommons.org/licenses/by-nc-sa/3.0/.
 
-Design:(Temporary Anonymous) & Zhang Hong
+Design:Chen Shu & Zhang Hong
 Programming:Zhang Hong
 """
 
@@ -17,18 +17,22 @@ class plotter(object):
     def __init__(self,gen,sum,iter,traits):
           
         self.fig=plt.figure()
-        self.ax=self.fig.add_subplot(2,1,1)
+        self.ax=self.fig.add_subplot(1,1,1,title="The evolution of property rights")
 
-        self.ax.set_ylim(0,sum)
+        self.ax.set_ylim(0,1)
         self.ax.set_xlim(0,iter)
-
         self.x=[]
         self.Bdata=[]
         self.Xdata=[]
         self.Edata=[]
-     
-      
-        self.lines=self.ax.plot(self.x,self.Bdata,self.x,self.Xdata,self.x,self.Edata)     
+        self.ax.set_xlabel("Generation",fontsize=14)
+        self.ax.set_ylabel("Percentage",fontsize=14)
+        box = self.ax.get_position()
+        self.ax.set_position([box.x0, box.y0 + box.height * 0.3,
+                 box.width, box.height * 0.6])
+        self.lines=self.ax.plot(self.x,self.Bdata,self.x,self.Xdata,self.x,self.Edata) 
+        self.ax.legend(self.lines,["B Percentage","X Percentage","E Percentage"],loc='upper center', bbox_to_anchor=(0.5, -0.2),
+          fancybox=True, ncol=3)    
         self.gen=gen
         
     def animate(self,data):
@@ -37,9 +41,10 @@ class plotter(object):
         self.x.append(j)
         
         B,X,E=d
-        self.Bdata.append(B)
-        self.Xdata.append(X)
-        self.Edata.append(E)
+        total=B+X+E
+        self.Bdata.append(float(B)/total)
+        self.Xdata.append(float(X)/total)
+        self.Edata.append(float(E)/total)
  
 
         for line in self.lines:

@@ -5,7 +5,7 @@ Attribution-NonCommercial-ShareAlike 3.0 Unported
 License. To view a copy of this license, visit 
 http://creativecommons.org/licenses/by-nc-sa/3.0/.
 
-Design:(Temporary Anonymous) & Zhang Hong
+Design:Chen Shu & Zhang Hong
 Programming:Zhang Hong
 """
 
